@@ -1,106 +1,197 @@
-<template>
-  <q-layout view="lHh Lpr lFf">
+<!-- <template>
+  <q-layout view="hHh lpR fFf">
     <q-header elevated>
       <q-toolbar>
+        
+        <q-toolbar-title>Minha Aplicação</q-toolbar-title>
+
+   
         <q-btn
           flat
           dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
+          label="Home"
+          icon="home"
+          @click="navigateTo('home')"
+        />
+        <q-btn
+          flat
+          dense
+          label="Sobre"
+          icon="info"
+          @click="navigateTo('about')"
+        />
+        <q-btn
+          flat
+          dense
+          label="Contato"
+          icon="phone"
+          @click="navigateTo('contact')"
+        />
+        <q-btn
+          flat
+          dense
+          label="Serviços"
+          icon="build"
+          @click="navigateTo('services')"
         />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+       
+        <q-space />
 
+        
+        <q-btn
+          flat
+          dense
+          icon="brightness_6"
+          @click="toggleTheme"
+          aria-label="Toggle Theme"
+        />
+
+      Versão do Quasar 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
+     Conteúdo da página 
+    <q-page-container>
+      <router-view />
+    </q-page-container> 
 
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
+     <q-footer elevated>
+      <q-toolbar>
+        <q-toolbar-title>Footer</q-toolbar-title>
+        <q-btn flat dense label="Política de Privacidade" />
+        <q-btn flat dense label="Termos de Uso" />
+      </q-toolbar>
+    </q-footer>
+  </q-layout>
+</template> -->
+
+<!-- <script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { useQuasar } from 'quasar';
+import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
+
+const $q = useQuasar();
+const router = useRouter();
+
+
+function navigateTo(page: string) {
+  router.push({ name: page });
+}
+
+
+function toggleTheme() {
+  $q.dark.set(!$q.dark.isActive);
+} -->
+
+<!-- // export default defineComponent({
+//   name: 'MainLayout',
+//   setup() {
+//     const authStore = useAuthStore();
+
+//     const { name } = storeToRefs(authStore);
+//     return {
+//       authStore,
+//       name,
+//     };
+//   },
+// });
+//
+ </script> -->
+
+<template>
+  <q-layout view="hHh lpR fFf">
+    <q-header elevated>
+      <q-toolbar>
+        <!-- Título da aplicação -->
+        <q-toolbar-title>Minha Aplicação</q-toolbar-title>
+
+        <!-- Botões de navegação na Navbar -->
+        <q-btn
+          rounded
+          flat
+          label="Home"
+          icon="person"
+          @click="navigateTo('home')"
         />
-      </q-list>
-    </q-drawer>
+        <q-btn
+          flat
+          dense
+          label="Sobre"
+          icon="info"
+          @click="navigateTo('about')"
+        />
+        <q-btn
+          flat
+          dense
+          label="Contato"
+          icon="phone"
+          @click="navigateTo('contact')"
+        />
+        <q-btn
+          flat
+          dense
+          label="Serviços"
+          icon="build"
+          @click="navigateTo('services')"
+        />
 
+        <!-- Espaçamento -->
+        <q-space />
+
+        <!-- Botão de tema escuro/claro -->
+        <q-btn
+          flat
+          dense
+          icon="brightness_6"
+          @click="toggleTheme"
+          aria-label="Toggle Theme"
+        />
+
+        <!-- Versão do Quasar -->
+        <div>Quasar v{{ $q.version }}</div>
+      </q-toolbar>
+    </q-header>
+
+    <!-- Conteúdo da página -->
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <!-- Footer fixo na parte inferior -->
+    <q-footer elevated>
+      <q-toolbar>
+        <q-toolbar-title>Footer</q-toolbar-title>
+        <q-btn flat dense label="Política de Privacidade" />
+        <q-btn flat dense label="Termos de Uso" />
+      </q-toolbar>
+    </q-footer>
   </q-layout>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import { useQuasar } from 'quasar';
+import { useAuthStore } from 'src/stores/auth';
+import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
 
-defineOptions({
-  name: 'MainLayout'
-});
+const $q = useQuasar();
+const router = useRouter();
 
-const linksList: EssentialLinkProps[] = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
-
-const leftDrawerOpen = ref(false);
-
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
+// Função para navegação
+function navigateTo(page: string) {
+  router.push({ name: page });
 }
+
+// Função para alternar tema escuro/claro
+function toggleTheme() {
+  $q.dark.set(!$q.dark.isActive);
+}
+
+// Pega a store de autenticação
+const authStore = useAuthStore();
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { name } = storeToRefs(authStore);
 </script>
